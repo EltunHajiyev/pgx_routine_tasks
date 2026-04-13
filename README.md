@@ -223,4 +223,4 @@ We welcome contributions! See [doc/CONTRIBUTING.md](doc/CONTRIBUTING.md) for gui
 
 This project is licensed under the [PostgreSQL License](LICENSE).
 
-Copyright (c) 2026, Valeh Agayev and contributors.
+Copyright (c) 2026, Eltun Hajiyev, Gurban Ismayilov, Valeh Agayev, and contributors.

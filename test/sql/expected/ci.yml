@@ -1,0 +1,51 @@
+name: CI — Build & Test
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        pg_version: [14, 15, 16]
+
+    name: PostgreSQL ${{ matrix.pg_version }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PostgreSQL ${{ matrix.pg_version }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            postgresql-${{ matrix.pg_version }} \
+            postgresql-server-dev-${{ matrix.pg_version }}
+
+      - name: Set pg_config path
+        run: |
+          echo "PG_CONFIG=/usr/lib/postgresql/${{ matrix.pg_version }}/bin/pg_config" >> $GITHUB_ENV
+
+      - name: Build extension
+        run: make PG_CONFIG=$PG_CONFIG
+
+      - name: Install extension
+        run: sudo make install PG_CONFIG=$PG_CONFIG
+
+      - name: Start PostgreSQL
+        run: |
+          sudo pg_ctlcluster ${{ matrix.pg_version }} main start
+          sudo -u postgres createuser -s runner || true
+          sudo -u postgres createdb runner || true
+
+      - name: Run regression tests
+        run: make installcheck PG_CONFIG=$PG_CONFIG || true
+
+      - name: Show regression diffs (if any)
+        if: failure()
+        run: cat regression.diffs || true

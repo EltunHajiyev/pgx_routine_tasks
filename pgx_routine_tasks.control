@@ -1,0 +1,6 @@
+# pgx_routine_tasks extension
+comment = 'Automate routine PostgreSQL DBA tasks: session management, bloat control, partition maintenance, smart vacuum/analyze'
+default_version = '0.1.0'
+module_pathname = '$libdir/pgx_routine_tasks'
+relocatable = false
+superuser = true

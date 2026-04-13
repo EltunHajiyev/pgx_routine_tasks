@@ -1,0 +1,23 @@
+# pgx_routine_tasks Makefile (PGXS)
+MODULE_big = pgx_routine_tasks
+EXTENSION  = pgx_routine_tasks
+DATA       = sql/pgx_routine_tasks--0.1.0.sql
+
+OBJS = src/pgx_routine_tasks.o \
+       src/session_manager.o \
+       src/bloat_manager.o \
+       src/partition_manager.o \
+       src/vacuum_manager.o \
+       src/utils.o
+
+REGRESS = session_manager_test \
+          bloat_manager_test \
+          partition_manager_test \
+          vacuum_manager_test
+
+REGRESS_OPTS = --inputdir=test
+
+PG_CPPFLAGS = -I$(srcdir)/src
+PG_CONFIG ?= pg_config
+PGXS := $(shell $(PG_CONFIG) --pgxs)
+include $(PGXS)

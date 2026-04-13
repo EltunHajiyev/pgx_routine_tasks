@@ -1,0 +1,34 @@
+# C object files
+*.o
+*.so
+*.dylib
+*.dll
+
+# Build artifacts
+*.bc
+*.gcda
+*.gcno
+*.gcov
+
+# PostgreSQL regression test output
+test/results/
+results/
+regression.diffs
+regression.out
+tmp_check/
+log/
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.kate-swp
+.DS_Store
+Thumbs.db
+
+# Autotools / configure artifacts
+config.log
+config.status
+autom4te.cache/

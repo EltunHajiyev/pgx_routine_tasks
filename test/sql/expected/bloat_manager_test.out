@@ -1,0 +1,19 @@
+-- Test: pgx_bloat_report returns expected columns
+SELECT * FROM pgx_bloat_report();
+ total_indexes | bloated_indexes | estimated_wasted_bytes
+---------------+-----------------+------------------------
+             0 |               0 |                      0
+(1 row)
+
+-- Test: pgx_detect_bloated_indexes with 100% threshold (expect empty set)
+SELECT * FROM pgx_detect_bloated_indexes(100.0);
+ schema_name | index_name | table_name | index_size_bytes | estimated_bloat_pct
+-------------+------------+------------+------------------+---------------------
+(0 rows)
+
+-- Test: convenience view
+SELECT * FROM pgx_bloat_overview;
+ total_indexes | bloated_indexes | estimated_wasted_bytes
+---------------+-----------------+------------------------
+             0 |               0 |                      0
+(1 row)

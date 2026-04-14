@@ -1,0 +1,23 @@
+-- Test: pgx_maintenance_report returns expected columns
+SELECT * FROM pgx_maintenance_report();
+ schema_name | table_name | last_vacuum | last_analyze | n_dead_tup | dead_pct | mod_pct
+-------------+------------+-------------+--------------+------------+----------+---------
+(0 rows)
+
+-- Test: pgx_smart_vacuum with very high thresholds (expect empty or no-op)
+SELECT * FROM pgx_smart_vacuum(99.0, 99.0);
+ schema_name | table_name | n_dead_tup | dead_pct | action
+-------------+------------+------------+----------+--------
+(0 rows)
+
+-- Test: pgx_smart_analyze with very high threshold (expect empty or no-op)
+SELECT * FROM pgx_smart_analyze(99.0);
+ schema_name | table_name | mod_pct | action
+-------------+------------+---------+--------
+(0 rows)
+
+-- Test: convenience view
+SELECT * FROM pgx_maintenance_overview;
+ schema_name | table_name | last_vacuum | last_analyze | n_dead_tup | dead_pct | mod_pct
+-------------+------------+-------------+--------------+------------+----------+---------
+(0 rows)
